@@ -1,5 +1,7 @@
 package com.customer.customer.crud.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +18,8 @@ import java.util.List;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @JsonIgnore
+     private int id;
 
     @Column(name="first_name")
     private String firstName;
@@ -27,7 +30,11 @@ public class Customer {
     @Column(name="phone")
     private String phone;
 
-    @OneToMany(cascade = CascadeType.ALL)
+
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,orphanRemoval = true)
     @JoinColumn(name="fid",referencedColumnName = "id")
+    //@JsonIgnore
     List<CustomerAddress> customerAddresses = new ArrayList<>();
+
 }

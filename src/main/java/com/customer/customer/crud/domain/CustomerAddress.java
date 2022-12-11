@@ -1,5 +1,6 @@
 package com.customer.customer.crud.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,12 +14,15 @@ import lombok.NoArgsConstructor;
 public class CustomerAddress {
 
 @Id
+@Column(name="customer_address_id")
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private int id;
 
-@Column(name = "primary_address")
-private String primary_address;
+@Column(name = "address")
+private String primaryAddress;
 
-@Column(name = "secondary_address")
-private String secondary_address;
+@JsonBackReference
+@ManyToOne
+@JoinColumn(name="id")
+private Customer customer;
 }

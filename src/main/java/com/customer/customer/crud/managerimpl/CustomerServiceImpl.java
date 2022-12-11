@@ -1,25 +1,39 @@
 package com.customer.customer.crud.managerimpl;
 
 import com.customer.customer.crud.domain.Customer;
+import com.customer.customer.crud.domain.CustomerAddress;
 import com.customer.customer.crud.manager.CustomerService;
+import com.customer.customer.crud.ras.CustomerAddressRepository;
 import com.customer.customer.crud.ras.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
+    @Autowired
     private final CustomerRepository customerRepository;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+    @Autowired
+    private final CustomerAddressRepository customerAddressRepository;
+
+    public CustomerServiceImpl(CustomerRepository customerRepository, CustomerAddressRepository customerAddressRepository) {
         this.customerRepository = customerRepository;
+        this.customerAddressRepository = customerAddressRepository;
     }
 
+
     public Customer createCustomer(Customer customer){
-        return customerRepository.save(customer);
+    List<CustomerAddress> customerTemp = customerAddressRepository.findByCustomerId(customer.getId());//.orElse(null);
+    /*if(customerTemp==null){
+        customerTemp = new CustomerAddress();
+    }*/
+    //customerTemp.setPrimaryAddress(customer.getCustomerAddresses().get);
+    //customer.setCustomerAddresses(customerAddress);
+    return customerRepository.save(customer);
     }
 
     public Customer getCustomerById(int id){
