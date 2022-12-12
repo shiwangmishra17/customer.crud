@@ -3,7 +3,9 @@ package com.customer.customer.crud.manager;
 import com.customer.customer.crud.domain.Customer;
 import org.springframework.web.bind.annotation.*;
 
+
 public interface CustomerService {
+
 
     public Customer createCustomer(@RequestBody Customer customer);
 

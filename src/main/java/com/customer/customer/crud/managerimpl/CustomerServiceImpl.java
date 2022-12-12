@@ -8,7 +8,6 @@ import com.customer.customer.crud.ras.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,12 +26,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     public Customer createCustomer(Customer customer){
-    List<CustomerAddress> customerTemp = customerAddressRepository.findByCustomerId(customer.getId());//.orElse(null);
-    /*if(customerTemp==null){
-        customerTemp = new CustomerAddress();
-    }*/
-    //customerTemp.setPrimaryAddress(customer.getCustomerAddresses().get);
-    //customer.setCustomerAddresses(customerAddress);
+
     return customerRepository.save(customer);
     }
 
@@ -55,13 +49,28 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return oldCustomer;
     }
+    public CustomerAddress updateCustomerAddress(CustomerAddress customerAddress){
+        CustomerAddress oldCustomerAddress = null;
+        Optional<CustomerAddress> optionalCustomerAddress = customerAddressRepository.findById(customerAddress.getId());
+        if(optionalCustomerAddress.isPresent()){
+            oldCustomerAddress = optionalCustomerAddress.get();
+            //oldCustomerAddress.setAddress(customerAddress.getAddress());
+            customerAddressRepository.save(oldCustomerAddress);
+        }
+        else{
+            return new CustomerAddress();
+        }
+
+        return oldCustomerAddress;
+
+    }
 
 
 
     public String deleteCustomerById(int id){
         customerRepository.deleteById(id);
         return "User Deleted";
-        //exceptional handling
+        //exception handling
 
     }
 }

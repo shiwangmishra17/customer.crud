@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -17,9 +16,9 @@ import java.util.List;
 @Table(name="CUSTOMER_GENERAL_DATA")
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @JsonIgnore
-     private int id;
+    private int id;
 
     @Column(name="first_name")
     private String firstName;
@@ -32,9 +31,8 @@ public class Customer {
 
 
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,orphanRemoval = true)
+    @OneToMany(targetEntity = CustomerAddress.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY,orphanRemoval = true)
     @JoinColumn(name="fid",referencedColumnName = "id")
-    //@JsonIgnore
-    List<CustomerAddress> customerAddresses = new ArrayList<>();
+    List<CustomerAddress> customerAddresses;
 
 }

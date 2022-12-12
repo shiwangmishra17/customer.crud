@@ -1,11 +1,11 @@
 package com.customer.customer.crud.controller;
 
 import com.customer.customer.crud.domain.Customer;
+import com.customer.customer.crud.dto.CustomerRequest;
 import com.customer.customer.crud.manager.CustomerService;
-import com.customer.customer.crud.ras.CustomerAddressRepository;
-import com.customer.customer.crud.ras.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 public class CustomerController {
@@ -14,11 +14,8 @@ public class CustomerController {
     private CustomerService customerService;
 
     @PostMapping("/createcustomer")
-    public Customer createCustomer(@RequestBody Customer customer) {
-
-        //return customerRepository.save(Customer.getCustomerAddress());
-        return customerService.createCustomer(customer);
-
+    public Customer createCustomer(@RequestBody CustomerRequest customerRequest) {
+        return customerService.createCustomer(customerRequest.getCustomer());
     }
 
     @GetMapping("/customer/{id}")
